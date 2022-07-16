@@ -318,6 +318,30 @@ async function deleteVoucher(voucherId) {
     }
 }
 
+async function updateReceiver(req) {
+    try {    
+        
+        let result = await cloudinary.uploader.upload(req.file.path)
+        const receiver = await Receiver.findById(req.body.receiverId)
+        receiver.status = 'HOAN THANH GAY QUY'
+        receiver.proofImg = result.secure_url    
+        console.log(result.secure_url )
+
+        await receiver.save()
+
+        return {
+            err: false,
+            message: "cap nhat thanh cong"
+        }
+    }
+    catch(err) {
+        return {
+            err: true,
+            message: err.message
+        }
+    }
+}
+
 
 module.exports= {
 
@@ -331,5 +355,6 @@ module.exports= {
     getVouchersByCategory,
     getVoucher,
     updateVoucher,
-    deleteVoucher
+    deleteVoucher,
+    updateReceiver
 }

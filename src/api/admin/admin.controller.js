@@ -47,6 +47,7 @@ async function getSuppliers (req, res, next) {
     }
 }
 
+
 //[GET] api/user/donation
 async function addVoucher (req, res, next) {
     try {
@@ -160,6 +161,19 @@ async function deleteVoucher (req, res, next) {
     }
 }
 
+async function updateReceiver (req, res, next) {
+    try {
+        let DTO=await adminService.updateReceiver(req);
+        if(DTO.error) 
+        {
+            return next(new ErrorResponse(DTO.message, 500));
+        }
+        res.status(200).json(DTO);
+    }
+    catch(err) {
+        next(new ErrorResponse(err.message, 500));
+    }
+}
 module.exports= {
 
     postReiver,
@@ -172,5 +186,6 @@ module.exports= {
     getVouchersByCategory,
     getVoucher,
     updateVoucher,
-    deleteVoucher
+    deleteVoucher,
+    updateReceiver
 }

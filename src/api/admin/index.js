@@ -4,7 +4,9 @@ const { checkAdminPermission } = require('../../middlewares/authMiddleware');
 
 const upload = require('../../../utils/multer.config');
 
-router.post('/receiver', upload.single('image'), adminController.postReiver)   //        /api/admin/receiver
+router.post('/receiver', upload.single('image'), adminController.postReiver)   //           /api/admin/receiver
+router.post('/update-receiver', upload.single('proofImg'), adminController.updateReceiver)   //           /api/admin/receiver
+
 router.post('/supplier', checkAdminPermission, upload.single('image'), adminController.addSupplier)   //    /api/admin/supplier
 router.get('/suppliers', adminController.getSuppliers)   //    /api/admin/supplier
 

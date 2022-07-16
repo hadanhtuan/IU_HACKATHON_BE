@@ -26,6 +26,8 @@ router.get('/receiver/:id', verifyToken, userController.getReceiver)
 
 router.get('/', verifyToken, userController.getUser)
 
+router.get('/block/:id', userController.getBlock)   //    /api/admin/block/:id
+
 module.exports = router;
 
 

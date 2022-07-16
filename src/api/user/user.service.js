@@ -140,7 +140,7 @@ async function postDonation(userId, reqDonation){
         //update receiver
         const receiver = await Receiver.findOne({_id: reqDonation.receiverId})
 
-        receiver.current_money+=reqDonation.amount;
+        receiver.current_money+=parseInt(reqDonation.amount);
         if(receiver.current_money >= receiver.max_money)  
             receiver.status = "DAT CHI TIEU"
 
@@ -611,6 +611,37 @@ async function vnpayIpn(userId, req) {
     }
 }
 
+async function getBlock(id) {
+    try {
+        let block = await Block.findById(id).populate({
+            path: 'transactionId',
+            populate: { path: 'from'},
+          })
+      
+    
+        const receiver = await Receiver.findById(block.transactionId.to) 
+        block.transactionId.to = receiver
+
+        if(!block) {
+            return {
+                err: true,
+                message: "Khong ton tai"
+            }
+        }
+
+        return {
+            err: false,
+            block
+        }
+    }
+    catch(err) {
+        return {
+            err: true,
+            message: err.message
+        }
+    }
+}
+
 module.exports= {
 
     getUser,
@@ -625,6 +656,7 @@ module.exports= {
     vnpayPayment,
     vnpayIpn,
     getReceivers,
-    getReceiver
+    getReceiver,
+    getBlock
 
 }

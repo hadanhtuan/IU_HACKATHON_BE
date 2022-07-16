@@ -16,6 +16,21 @@ async function getUser (req, res, next) {
     }
 }
 
+//[GET] api/user/block/:id
+async function getBlock (req, res, next) {
+    try {
+        let DTO=await userService.getBlock(req.params.id);
+        if(DTO.error) 
+        {
+            return next(new ErrorResponse(DTO.message, 500));
+        }
+        res.status(200).json(DTO);
+    }
+    catch(err) {
+        next(new ErrorResponse(err.message, 500));
+    }
+}
+
 
 //[POST] api/user/donation
 async function postDonation (req, res, next) {
@@ -205,5 +220,6 @@ module.exports= {
     vnpayIpn,
     postMoney,
     getReceivers,
-    getReceiver
+    getReceiver,
+    getBlock
 }
