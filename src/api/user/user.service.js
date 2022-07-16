@@ -38,6 +38,46 @@ async function getUser(userId) {
     }
 }
 
+async function getReceiver(id) {
+    try {
+        const receiver = await Receiver.findById(id)
+        if(!receiver)
+        {
+            return {
+                error: true,
+                message: "Khong tim thay receiver"
+            }
+        }
+
+        return {
+            receiver
+        }
+    }
+    catch(err) {
+        return {
+            err: true,
+            message: err.message
+        }
+    }
+}
+
+
+async function getReceivers() {
+    try {
+        const receivers = await Receiver.find({})
+
+        return {
+            receivers: receivers
+        }
+    }
+    catch(err) {
+        return {
+            err: true,
+            message: err.message
+        }
+    }
+}
+
 
 async function postDonation(userId, reqDonation){
     try {
@@ -583,6 +623,8 @@ module.exports= {
     postMoney,
     getCertificate,
     vnpayPayment,
-    vnpayIpn
+    vnpayIpn,
+    getReceivers,
+    getReceiver
 
 }

@@ -35,7 +35,37 @@ async function postDonation (req, res, next) {
 //[GET] api/user/donation
 async function getDonation (req, res, next) {
     try {
-        let DTO=await userService.getDonation(req.body.receiverId);
+        let DTO=await userService.getDonation(req.params.id);
+        if(DTO.error) 
+        {
+            return next(new ErrorResponse(DTO.message, 500));
+        }
+        res.status(200).json(DTO);
+    }
+    catch(err) {
+        next(new ErrorResponse(err.message, 500));
+    }
+}
+
+//[GET] api/user/receiver/:id
+async function getReceiver (req, res, next) {
+    try {
+        let DTO=await userService.getReceiver(req.params.id);
+        if(DTO.error) 
+        {
+            return next(new ErrorResponse(DTO.message, 500));
+        }
+        res.status(200).json(DTO);
+    }
+    catch(err) {
+        next(new ErrorResponse(err.message, 500));
+    }
+}
+
+//[GET] api/user/all-receiver
+async function getReceivers (req, res, next) {
+    try {
+        let DTO=await userService.getReceivers();
         if(DTO.error) 
         {
             return next(new ErrorResponse(DTO.message, 500));
@@ -174,4 +204,6 @@ module.exports= {
     vnpayPayment,
     vnpayIpn,
     postMoney,
+    getReceivers,
+    getReceiver
 }
