@@ -102,6 +102,21 @@ async function postDonation(userId, reqDonation){
         point += Math.floor(reqDonation.amount/1000);
         user.point += point;
 
+        //update receiver
+        const receiver = await Receiver.findOne({_id: reqDonation.receiverId})
+
+        receiver.current_money+=parseInt(reqDonation.amount);
+        if(receiver.current_money > receiver.max_money)  
+        {
+            return {
+                error: true,
+                message: "Quyên góp thất bại, vui lòng nhập đúng số tiền"
+            }
+        }
+        else if(receiver.current_money == receiver.max_money)  
+            receiver.status = "DAT CHI TIEU"
+
+
         let trans  = await Transaction.find({to: reqDonation.receiverId}).sort({_id:-1}).limit(1)
         console.log(trans[0])
 
@@ -148,13 +163,7 @@ async function postDonation(userId, reqDonation){
         
 
 
-        //update receiver
-        const receiver = await Receiver.findOne({_id: reqDonation.receiverId})
-
-        receiver.current_money+=parseInt(reqDonation.amount);
-        if(receiver.current_money >= receiver.max_money)  
-            receiver.status = "DAT CHI TIEU"
-
+        
         receiver.save();
 
         user.save();
