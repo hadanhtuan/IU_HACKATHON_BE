@@ -20,7 +20,7 @@ const blockSchema = new Schema({
   timestamp : {
     type: String,
     required: true,
-    default: Date.now()
+    default: new Date()
   }
 });
 

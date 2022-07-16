@@ -16,8 +16,21 @@ const receiverSchema = new Schema({
       required: true,
   },
   max_money: {
+      type: Number,
+      required: true,
+  },
+  current_money: {
+      type: Number,
+      required: true,
+      default: 0
+  },
+  status: {
       type: String,
       required: true,
+      default: "DANG GAY QUY"// DAT CHI TIEU || HOAN THANH GAY QUY, 
+  },
+  proofImg: {
+      type: String
   }
 });
 
