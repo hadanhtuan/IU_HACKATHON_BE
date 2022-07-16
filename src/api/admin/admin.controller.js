@@ -4,7 +4,7 @@ const ErrorResponse = require("../../../utils/errorResponse");
 //[POST] api/admin/receiver
 async function postReiver (req, res, next) {
     try {
-        let DTO=await adminService.postReiver(req.body);
+        let DTO=await adminService.postReiver(req);
         if(DTO.error) 
         {
             return next(new ErrorResponse(DTO.message, 500));
@@ -20,7 +20,7 @@ async function postReiver (req, res, next) {
 async function addSupplier (req, res, next) {
     console.log(2)
     try {
-        let DTO=await adminService.addSupplier(req.body);
+        let DTO=await adminService.addSupplier(req);
         if(DTO.error) 
         {
             return next(new ErrorResponse(DTO.message, 500));
@@ -50,7 +50,7 @@ async function getSuppliers (req, res, next) {
 //[GET] api/user/donation
 async function addVoucher (req, res, next) {
     try {
-        let DTO=await adminService.addVoucher(req.body);
+        let DTO=await adminService.addVoucher(req);
         if(DTO.error) 
         {
             return next(new ErrorResponse(DTO.message, 500));

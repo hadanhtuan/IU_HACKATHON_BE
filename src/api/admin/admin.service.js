@@ -4,16 +4,32 @@ const Block = require("../../models/Block");
 const Receiver = require("../../models/Receiver");
 const Supplier = require("../../models/Supplier");
 const Voucher = require("../../models/Voucher");
-
+const cloudinary = require('../../../utils/cloudinary.config');
+const  upload = require('../../../utils/multer.config')
 
 async function postReiver(req) {
-    const {image, title, content, max_money} = req;
+    console.log(process.env.API_ID)
+    let result
+    try {
+        result = await cloudinary.uploader.upload(req.file.path)
+    }
+    catch(err) {
+        console.log(err)
+        return {
+            error: true,
+            message: err.message,
+        }
+    }
+    console.log(2)
 
     const newReceiver = new Receiver({
-        title, 
-        content,
-        max_money
+        title: req.body.title, 
+        content: req.body.content,
+        max_money: req.body.max_money,
+        image: result.secure_url,
+         
     });
+    console.log(result.secure_url)
 
     try {
         await newReceiver.save();
@@ -32,12 +48,13 @@ async function postReiver(req) {
 }
 
 
-async function addSupplier(reqSupplier){
-    const {supplier_name, image} = reqSupplier;
-    console.log(1);
+async function addSupplier(req){
+    
+    result = await cloudinary.uploader.upload(req.file.path)
+
     const newSupplier = new Supplier({
-        supplier_name,
-        image,
+        supplier_name: req.body.supplier_name,
+        image: result.secure_url,
     });
 
     try {
@@ -74,15 +91,16 @@ async function getSuppliers(page){
     }
 }
 
-async function addVoucher(reqVoucher){
-    const {description, category, supplier_name, point_cost, image} = reqVoucher;
+async function addVoucher(req){
+    result = await cloudinary.uploader.upload(req.file.path)
 
     const newVoucher = new Voucher({
-        description,
-        category,
-        supplier_name,
-        point_cost,
-        image
+        description: req.body.description,
+        category: req.body.category,
+        supplier_name: req.body.supplier_name,
+        point_cost: req.body.point_cost,
+        image: result.secure_url,
+        
     });
 
     try {

@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000
 
 app.use(cors())
 
-require('dotenv').config();
+require('dotenv').config({path: "./.env"})
 
 const path = require('path')
 const ErrorResponse = require("./utils/errorResponse");
