@@ -21,17 +21,24 @@ const blockSchema = new Schema({
     type: String,
     required: true,
     default: new Date()
+  },
+  mineVar: {
+    type: Number,
+    required: true,
+    default: 0
   }
 });
 
 blockSchema.methods.calculateHash = function () {
 
-  this.hash = crypto
+  return crypto
   .createHash('sha256')
-  .update(this.previousHash + this.timestamp + JSON.stringify(this.transaction))
+  .update(this.previousHash + this.timestamp + JSON.stringify(this.transaction)+this.mineVar)
   .digest('hex');
 
 };
+
+
 
 
 

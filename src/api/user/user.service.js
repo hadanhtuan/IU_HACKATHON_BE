@@ -106,7 +106,6 @@ async function postDonation(userId, reqDonation){
         console.log(trans[0])
 
         let lastBlock
-        await newTransaction.save();
 
         if(trans[0]) {
             lastBlock = await Block.find({transactionId: trans[0]._id}).sort({_id:-1}).limit(1)
@@ -120,7 +119,13 @@ async function postDonation(userId, reqDonation){
                 transactionId: newTransaction._id,
                 previousHash: "00000"
             });
-            newBlock1.calculateHash();
+            await newTransaction.save();
+
+            newBlock1.hash = newBlock1.calculateHash();
+            while(!newBlock1.hash.startsWith('0000')) {
+                newBlock1.mineVar++,
+                newBlock1.hash = newBlock1.calculateHash()
+            }
             newBlock1.save();
         }
         else {
@@ -130,7 +135,13 @@ async function postDonation(userId, reqDonation){
                 transactionId: newTransaction._id,
                 previousHash: lastBlock[0].hash
             });
-            newBlock2.calculateHash();
+            await newTransaction.save();
+
+            newBlock2.hash = newBlock2.calculateHash();
+            while(!newBlock2.hash.startsWith('0000')) {
+                newBlock2.mineVar++,
+                newBlock2.hash = newBlock2.calculateHash()
+            }         
             newBlock2.save();
         }
 
