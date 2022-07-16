@@ -234,7 +234,12 @@ async function getHistory(userId) {
         for(let block of blocks) {
         //    console.log(block.transaction[0].from.valueOf())
             if(block.transaction[0].from.valueOf() == userId) {
+
+                const user = await User.findById(block.transaction[0].from)
+                const receiver = await Receiver.findById(block.transaction[0].to)
                 let newBlock = { ...block, transaction: block.transaction[0]}
+                newBlock.transaction.from = user
+                newBlock.transaction.to = receiver
                 
                 delete newBlock.__v
                 newBlocks.push(newBlock)
