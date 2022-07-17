@@ -150,6 +150,20 @@ async function getVoucher (req, res, next) {
     }
 }
 
+async function getVouchers (req, res, next) {
+    try {
+        let DTO=await userService.getVouchers();
+        if(DTO.error) 
+        {
+            return next(new ErrorResponse(DTO.message, 500));
+        }
+        res.status(200).json(DTO);
+    }
+    catch(err) {
+        next(new ErrorResponse(err.message, 500));
+    }
+}
+
 async function getCertificate (req, res, next) {
     try {
         let DTO=await userService.getCertificate(req.params.id);
@@ -221,5 +235,6 @@ module.exports= {
     postMoney,
     getReceivers,
     getReceiver,
-    getBlock
+    getBlock,
+    getVouchers
 }

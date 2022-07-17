@@ -12,6 +12,7 @@ router.get('/history', verifyToken, userController.getHistory)
 router.post('/edit', verifyToken, userController.updateUser)
 router.post('/add-voucher', verifyToken, userController.postVoucher)
 router.get('/voucher', verifyToken, userController.getVoucher)
+router.get('/vouchers', userController.getVouchers)
 
 router.post('/money', verifyToken, userController.postMoney);
 router.get('/certificate/:id', userController.getCertificate);

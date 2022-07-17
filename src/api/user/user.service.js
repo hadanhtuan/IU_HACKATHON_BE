@@ -415,6 +415,24 @@ async function getVoucher(userId){
     }
 }
 
+async function getVouchers(userId){
+    try {
+        let vouchers = await Voucher.find({});
+
+        return {
+            error: false,
+            message: "Lấy danh sách voucher thành công",
+            vouchers
+        }
+    }
+    catch(err) {
+        return {   
+            error: true,
+            message: err.message,
+        }
+    }
+}
+
 async function postMoney(userId, money){
     try {
         let user = await User.findById(userId);
@@ -682,6 +700,7 @@ module.exports= {
     vnpayIpn,
     getReceivers,
     getReceiver,
-    getBlock
+    getBlock,
+    getVouchers
 
 }
